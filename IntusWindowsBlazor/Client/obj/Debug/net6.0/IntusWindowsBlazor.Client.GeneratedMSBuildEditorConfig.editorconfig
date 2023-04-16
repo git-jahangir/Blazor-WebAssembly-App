@@ -1,0 +1,61 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = IntusWindowsBlazor.Client
+build_property.RootNamespace = IntusWindowsBlazor.Client
+build_property.ProjectDir = E:\ProjectsDev\TestFolder\intus\try4\IntusWindowsBlazor\IntusWindowsBlazor\Client\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = E:\ProjectsDev\TestFolder\intus\try4\IntusWindowsBlazor\IntusWindowsBlazor\Client
+build_property._RazorSourceGeneratorDebug = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Pages/Elements/Elements.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRWxlbWVudHNcRWxlbWVudHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Pages/FetchData.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Pages/Orders/Orders.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXE9yZGVycy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Pages/Windows/Windows.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2luZG93c1xXaW5kb3dzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-wmmkqs6i86
+
+[E:/ProjectsDev/TestFolder/intus/try4/IntusWindowsBlazor/IntusWindowsBlazor/Client/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-etxuup3u6j

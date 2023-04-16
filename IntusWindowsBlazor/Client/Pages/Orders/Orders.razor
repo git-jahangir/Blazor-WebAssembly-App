@@ -1,0 +1,124 @@
+﻿@page "/Orders/orders"
+@using IntusWindowDataModel.ViewModel;
+@using Newtonsoft.Json;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<h3>Orders</h3>
+
+<EditForm Model="@orders" OnValidSubmit="@Save">
+    <DataAnnotationsValidator />
+    @*<ValidationSummary />*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="OrderName"> Order Name *</label>
+                <input form="OrderName" placeholder="Order Name" class="form-control" @bind="@orders.OrderName" />
+                <ValidationMessage For="@(()=> orders.OrderName)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="State"> State *</label>
+                <input form="State" placeholder="State" class="form-control" @bind="@orders.State" />
+                <ValidationMessage For="@(()=> orders.State)"></ValidationMessage>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+<div class="row mt-4">
+    <h4>Order List</h4>
+    <div class="col-md-12">
+        @if (listOrder != null)
+        {
+            <table class="table table-striped" width="100%">
+                <thead>
+                    <tr>
+                        <th width="65%">Order Name</th>
+                        <th width="20%">State</th>
+                        <th width="15%" style="text-align:center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ordr in listOrder)
+                    {
+                        <tr>
+                            <td>
+                                @ordr.OrderName
+                            </td>
+                            <td>@ordr.State</td>
+                            <td style="text-align:center">
+                                <a href="javascript:void(0);" @onclick="() => EditById((int)ordr.OrderId)">Edit</a> |
+                                <a href="javascript:void(0);" @onclick="() => DeleteById((int)ordr.OrderId)">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+@code {
+    vmOrders orders = new vmOrders();
+    List<vmOrders> listOrder = new List<vmOrders>();
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadList();
+    }
+    private async Task Save()
+    {
+        dynamic response = await Http.PostAsJsonAsync("api/orders/saveupdate", @orders);
+        dynamic saveres = await response.Content.ReadAsStringAsync();
+        dynamic sres = JsonConvert.DeserializeObject<dynamic>(saveres.ToString());
+        dynamic res = sres.resdata;
+        bool resstate = res.resstate;
+        string message = res.message;
+        if (resstate)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", message);
+            Cancel();
+            await LoadList();
+        }
+    }
+    void Cancel()
+    {
+        orders = new vmOrders();
+    }
+
+    private async Task EditById(int Id)
+    {
+        orders = await Http.GetFromJsonAsync<vmOrders>("api/orders/getbyid/" + Id);
+    }
+
+    private async Task DeleteById(int Id)
+    {
+        var response = await Http.DeleteAsync("api/orders/deletebyid/" + Id);
+        dynamic delres = await response.Content.ReadAsStringAsync();
+        dynamic dres = JsonConvert.DeserializeObject<dynamic>(delres.ToString());
+        dynamic res = dres.resdata;
+        bool resstate = res.resstate;
+        string message = res.message;
+        if (resstate)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", message);
+            await LoadList();
+        }
+    }
+
+    private async Task LoadList()
+    {
+        listOrder = await Http.GetFromJsonAsync<List<vmOrders>>("api/orders/getall");
+    }
+
+}

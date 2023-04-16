@@ -1,0 +1,202 @@
+﻿@page "/Elements/elements"
+@using IntusWindowDataModel.ViewModel;
+@using Newtonsoft.Json;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<h3>Elements</h3>
+
+<EditForm Model="@sElement" OnValidSubmit="@Save">
+    <DataAnnotationsValidator />
+    @*<ValidationSummary />*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Element"> Element *</label>
+                <input form="Element" placeholder="Element" class="form-control" @bind="@sElement.Element" />
+                <ValidationMessage For="@(()=> sElement.Element)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Type"> Type *</label>
+                <input form="Type" placeholder="Type" class="form-control" @bind="@sElement.Type" />
+                <ValidationMessage For="@(()=> sElement.Type)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Width"> Width *</label>
+                <input form="Width" placeholder="Width" class="form-control" @bind="@sElement.Width" />
+                <ValidationMessage For="@(()=> sElement.Width)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Height"> Height *</label>
+                <input form="Height" placeholder="Height" class="form-control" @bind="@sElement.Height" />
+                <ValidationMessage For="@(()=> sElement.Height)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="OrderId"> Order *</label>
+                <select class="form-control" value="@sElement.OrderId" @onchange="LoadWindowList" title="Order is required ">
+                    <option value="0" selected disabled="disabled">Choose Order</option>
+                    @foreach (var ord in listOrders)
+                    {
+                        <option value="@ord.OrderId"> @ord.OrderName</option>
+                    }
+                </select>
+                <ValidationMessage For="@(()=> sElement.OrderId)"></ValidationMessage>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="WindowId"> Window *</label>
+                <select class="form-control" @bind="@sElement.WindowId" title="Window is required ">
+                    <option value="0" selected disabled="disabled">Choose Window</option>
+                    @foreach (var win in @listWindows)
+                    {
+                        <option value="@win.WindowId"> @win.WindowName</option>
+                    }
+                </select>
+                <ValidationMessage For="@(()=> sElement.WindowId)"></ValidationMessage>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+<div class="row mt-4">
+    <h4>Element List</h4>
+    <div class="col-md-12">
+        @if (listElement != null)
+        {
+            <table class="table table-striped" width="100%">
+                <thead>
+                    <tr>
+                        <th width="10%" style="text-align:center">Element</th>
+                        <th width="10%" style="text-align:center">Type</th>
+                        <th width="10%" style="text-align:center">Width</th>
+                        <th width="10%" style="text-align:center">Height</th>
+                        <th width="20%">Window Name</th>
+                        <th width="25%">Order Name</th>
+                        <th width="15%" style="text-align:center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var el in listElement)
+                    {
+                        <tr>
+                            <td>
+                                @el.Element
+                            </td>
+                            <td style="text-align:center">@el.Type</td>
+                            <td style="text-align:center">@el.Width</td>
+                            <td style="text-align:center">@el.Height</td>
+                            <td>@el.WindowName</td>
+                            <td>@el.OrderName</td>
+                            <td style="text-align:center">
+                                <a href="javascript:void(0);" @onclick="() => EditById((int)el.SubElementId)">Edit</a> |
+                                <a href="javascript:void(0);" @onclick="() => DeleteById((int)el.SubElementId)">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+@code {
+    int orderId;
+    vmElements sElement = new vmElements();
+    List<vmElements> listElement = new List<vmElements>();
+    List<vmOrders> listOrders = new List<vmOrders>();
+    List<vmWindowsDDL> listWindows = new List<vmWindowsDDL>();
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOrderList();
+        await LoadList();
+    }
+    private async Task Save()
+    {
+        var response = await Http.PostAsJsonAsync("api/elements/saveupdate", @sElement);
+        dynamic saveres = await response.Content.ReadAsStringAsync();
+        dynamic sres = JsonConvert.DeserializeObject<dynamic>(saveres.ToString());
+        dynamic res = sres.resdata;
+        bool resstate = res.resstate;
+        string message = res.message;
+        if (resstate)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", message);
+            Cancel();
+            await LoadList();
+        }
+
+    }
+
+    void Cancel()
+    {
+        sElement = new vmElements();
+        listWindows = new List<vmWindowsDDL>();
+    }
+
+    private async Task EditById(int Id)
+    {
+        sElement = await Http.GetFromJsonAsync<vmElements>("api/elements/getbyid/" + Id);
+        await LoadWindowListByOrderId((int)sElement.OrderId);
+    }
+
+    private async Task DeleteById(int Id)
+    {
+        var response = await Http.DeleteAsync("api/elements/deletebyid/" + Id);
+        dynamic delres = await response.Content.ReadAsStringAsync();
+        dynamic dres = JsonConvert.DeserializeObject<dynamic>(delres.ToString());
+        dynamic res = dres.resdata;
+        bool resstate = res.resstate;
+        string message = res.message;
+        if (resstate)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", message);
+            await LoadList();
+        }
+    }
+
+    private async Task LoadList()
+    {
+        listElement = await Http.GetFromJsonAsync<List<vmElements>>("api/elements/getall");
+    }
+
+    private async Task LoadOrderList()
+    {
+        listOrders = await Http.GetFromJsonAsync<List<vmOrders>>("api/orders/getall");
+    }
+
+    private async Task LoadWindowList(ChangeEventArgs e)
+    {
+        string ids = e.Value.ToString();
+        if (!string.IsNullOrEmpty(ids))
+        {
+            sElement.OrderId = Convert.ToInt32(ids);
+            int id = (int)sElement.OrderId;
+            listWindows = await Http.GetFromJsonAsync<List<vmWindowsDDL>>("api/windows/getallbyorderid/" + id);
+        }
+    }
+
+    private async Task LoadWindowListByOrderId(int id)
+    {
+        listWindows = await Http.GetFromJsonAsync<List<vmWindowsDDL>>("api/windows/getallbyorderid/" + id);
+    }
+
+}

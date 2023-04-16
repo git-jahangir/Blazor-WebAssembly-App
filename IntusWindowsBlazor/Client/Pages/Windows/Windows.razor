@@ -1,0 +1,157 @@
+﻿@page "/Windows/windows"
+@using IntusWindowDataModel.ViewModel;
+@using Newtonsoft.Json;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<h3>Windows</h3>
+
+<EditForm Model="@windows" OnValidSubmit="@Save">
+    <DataAnnotationsValidator />
+    @*<ValidationSummary />*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="WindowName"> Window Name *</label>
+                <input form="WindowName" placeholder="Window Name" class="form-control" @bind="@windows.WindowName" />
+                <ValidationMessage For="@(()=> windows.WindowName)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="QuantityOfWindows"> Quantity *</label>
+                <input form="QuantityOfWindows" placeholder="Quantity" class="form-control" @bind="@windows.QuantityOfWindows" />
+                <ValidationMessage For="@(()=> windows.QuantityOfWindows)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="TotalSubElements"> Total Element *</label>
+                <input form="TotalSubElements" placeholder="Total Element" class="form-control" @bind="@windows.TotalSubElements" />
+                <ValidationMessage For="@(()=> windows.TotalSubElements)"></ValidationMessage>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="OrderId"> Order *</label>
+                <select class="form-control" @bind="@windows.OrderId" title="Order is required ">
+                    <option value="0" selected disabled="disabled">Choose Order</option>
+                    @foreach (var ord in listOrder)
+                    {
+                        <option value="@ord.OrderId"> @ord.OrderName</option>
+                    }
+                </select>
+                <ValidationMessage For="@(()=> windows.OrderId)"></ValidationMessage>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn" @onclick="@Cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+<div class="row mt-4">
+    <h4>Window List</h4>
+    <div class="col-md-12">
+        @if (listWindows != null)
+        {
+            <table class="table table-striped" width="100%">
+                <thead>
+                    <tr>
+                        <th width="20%">Window Name</th>
+                        <th width="10%" style="text-align:center">Quantity</th>
+                        <th width="20%" style="text-align:center">Total Element</th>
+                        <th width="35%">OrderName</th>
+                        <th width="15%" style="text-align:center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var win in listWindows)
+                    {
+                        <tr>
+                            <td>
+                                @win.WindowName
+                            </td>
+                            <td style="text-align:center">@win.QuantityOfWindows</td>
+                            <td style="text-align:center">@win.TotalSubElements</td>
+                            <td>@win.OrderName</td>
+                            <td style="text-align:center">
+                                <a href="javascript:void(0);" @onclick="() => EditById((int)win.WindowId)">Edit</a> |
+                                <a href="javascript:void(0);" @onclick="() => DeleteById((int)win.WindowId)">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+@code {
+
+    List<vmOrdersDDL> listOrder = new List<vmOrdersDDL>();
+    vmWindows windows = new vmWindows();
+    List<vmWindows> listWindows = new List<vmWindows>();
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOrderList();
+        await LoadList();
+    }
+    private async Task Save()
+    {
+        var response = await Http.PostAsJsonAsync("api/windows/saveupdate", @windows);
+        dynamic saveres = await response.Content.ReadAsStringAsync();
+        dynamic sres = JsonConvert.DeserializeObject<dynamic>(saveres.ToString());
+        dynamic res = sres.resdata;
+        bool resstate = res.resstate;
+        string message = res.message;
+        if (resstate)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", message);
+            Cancel();
+            await LoadList();
+        }
+
+    }
+    void Cancel()
+    {
+        windows = new vmWindows();
+    }
+
+    private async Task EditById(int Id)
+    {
+        windows = await Http.GetFromJsonAsync<vmWindows>("api/windows/getbyid/" + Id);
+    }
+
+    private async Task DeleteById(int Id)
+    {
+        var response = await Http.DeleteAsync("api/windows/deletebyid/" + Id);
+        dynamic delres = await response.Content.ReadAsStringAsync();
+        dynamic dres = JsonConvert.DeserializeObject<dynamic>(delres.ToString());
+        dynamic res = dres.resdata;
+        bool resstate = res.resstate;
+        string message = res.message;
+        if (resstate)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", message);
+            await LoadList();
+        }
+    }
+
+    private async Task LoadList()
+    {
+        listWindows = await Http.GetFromJsonAsync<List<vmWindows>>("api/windows/getall");
+    }
+
+    private async Task LoadOrderList()
+    {
+        listOrder = await Http.GetFromJsonAsync<List<vmOrdersDDL>>("api/orders/getallorder");
+    }
+}

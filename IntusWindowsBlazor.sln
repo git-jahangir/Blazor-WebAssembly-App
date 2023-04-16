@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntusWindowsBlazor.Server", "IntusWindowsBlazor\Server\IntusWindowsBlazor.Server.csproj", "{C09E909B-9FB3-4601-8795-6C399F734FF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntusWindowsBlazor.Client", "IntusWindowsBlazor\Client\IntusWindowsBlazor.Client.csproj", "{3F255AC1-AB34-41F6-AAEB-20F9ED79A78E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{884B6C05-C07E-4D2D-AB71-3F352D088FAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntusWindowsBLL", "IntusWindowsBLL\IntusWindowsBLL.csproj", "{EBE866E3-DAFC-49BA-862E-45D0941CA508}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntusWindowsDAL", "IntusWindowsDAL\IntusWindowsDAL.csproj", "{49F4C17F-EBA6-4CA7-A4E5-531E380C2B2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntusWindowDataModel", "IntusWindowDataModel\IntusWindowDataModel.csproj", "{A3B7D2DE-F94B-4EFB-8727-2808CB0BFD9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C09E909B-9FB3-4601-8795-6C399F734FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C09E909B-9FB3-4601-8795-6C399F734FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C09E909B-9FB3-4601-8795-6C399F734FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C09E909B-9FB3-4601-8795-6C399F734FF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F255AC1-AB34-41F6-AAEB-20F9ED79A78E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F255AC1-AB34-41F6-AAEB-20F9ED79A78E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F255AC1-AB34-41F6-AAEB-20F9ED79A78E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F255AC1-AB34-41F6-AAEB-20F9ED79A78E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBE866E3-DAFC-49BA-862E-45D0941CA508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBE866E3-DAFC-49BA-862E-45D0941CA508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBE866E3-DAFC-49BA-862E-45D0941CA508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBE866E3-DAFC-49BA-862E-45D0941CA508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F4C17F-EBA6-4CA7-A4E5-531E380C2B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F4C17F-EBA6-4CA7-A4E5-531E380C2B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F4C17F-EBA6-4CA7-A4E5-531E380C2B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F4C17F-EBA6-4CA7-A4E5-531E380C2B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B7D2DE-F94B-4EFB-8727-2808CB0BFD9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B7D2DE-F94B-4EFB-8727-2808CB0BFD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B7D2DE-F94B-4EFB-8727-2808CB0BFD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B7D2DE-F94B-4EFB-8727-2808CB0BFD9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EBE866E3-DAFC-49BA-862E-45D0941CA508} = {884B6C05-C07E-4D2D-AB71-3F352D088FAE}
+		{49F4C17F-EBA6-4CA7-A4E5-531E380C2B2A} = {884B6C05-C07E-4D2D-AB71-3F352D088FAE}
+		{A3B7D2DE-F94B-4EFB-8727-2808CB0BFD9E} = {884B6C05-C07E-4D2D-AB71-3F352D088FAE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E36194AD-57CC-42AC-B257-68B92C7A1A6C}
+	EndGlobalSection
+EndGlobal
